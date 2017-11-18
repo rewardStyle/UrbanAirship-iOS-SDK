@@ -251,8 +251,10 @@ NSString *const UANamedUserTagGroupsMutationsKey = @"UANamedUserTagGroupsMutatio
                                    [self.dataStore addTagGroupsMutation:mutation atBeginning:YES forKey:UANamedUserTagGroupsMutationsKey];
                                }
 
-                               [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-                               backgroundTask = UIBackgroundTaskInvalid;
+                               if (backgroundTask != UIBackgroundTaskInvalid) {
+                                   [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+                                   backgroundTask = UIBackgroundTaskInvalid;
+                               }
                            }];
 }
 

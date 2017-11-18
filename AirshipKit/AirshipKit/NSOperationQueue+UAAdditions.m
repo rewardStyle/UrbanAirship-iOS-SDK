@@ -33,6 +33,7 @@
 
         if (backgroundTask != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+            backgroundTask = UIBackgroundTaskInvalid;
         }
     };
 

@@ -796,8 +796,10 @@ NSString *const UAChannelUpdatedEventChannelKey = @"com.urbanairship.push.channe
                                  [self.dataStore addTagGroupsMutation:mutation atBeginning:YES forKey:UAPushTagGroupsMutationsKey];
                              }
 
-                             [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-                             backgroundTask = UIBackgroundTaskInvalid;
+                             if (backgroundTask != UIBackgroundTaskInvalid) {
+                                 [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+                                 backgroundTask = UIBackgroundTaskInvalid;
+                             }
                          }];
 }
 
@@ -983,8 +985,10 @@ NSString *const UAChannelUpdatedEventChannelKey = @"com.urbanairship.push.channe
     if (self.registrationBackgroundTask == UIBackgroundTaskInvalid) {
         self.registrationBackgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             [self.channelRegistrar cancelAllRequests];
-            [[UIApplication sharedApplication] endBackgroundTask:self.registrationBackgroundTask];
-            self.registrationBackgroundTask = UIBackgroundTaskInvalid;
+            if (self.registrationBackgroundTask != UIBackgroundTaskInvalid) {
+                [[UIApplication sharedApplication] endBackgroundTask:self.registrationBackgroundTask];
+                self.registrationBackgroundTask = UIBackgroundTaskInvalid;
+            }
         }];
     }
 
